@@ -42,7 +42,10 @@ if not settings.TEST and settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-    urlpatterns.append(path('silk/', include('silk.urls', namespace='silk')))
+    try:
+        urlpatterns.append(path('silk/', include('silk.urls', namespace='silk')))
+    except ModuleNotFoundError:
+        pass  # silk is optional for development
 
 urlpatterns.append(
     re_path(r'^.*', TemplateView.as_view(template_name='frontend/index.html'))

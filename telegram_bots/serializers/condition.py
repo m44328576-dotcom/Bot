@@ -95,7 +95,7 @@ class ConditionSerializer(TelegramBotMixin, serializers.ModelSerializer[Conditio
         for item in data:
             try:
                 part: ConditionPart = condition.parts.get(id=item['id'])
-            except KeyError, ConditionPart.DoesNotExist:
+            except (KeyError, ConditionPart.DoesNotExist):
                 create_parts.append(ConditionPart(condition=condition, **item))
             else:
                 part.type = item.get('type', part.type)

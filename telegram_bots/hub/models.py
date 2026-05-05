@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.conf import settings
 from django.db import models
 from django.db.models import QuerySet
@@ -18,14 +20,14 @@ else:
 
 
 class TelegramBotsHubManager(models.Manager['TelegramBotsHub']):
-    def get_freest(self) -> TelegramBotsHub | None:
+    def get_freest(self) -> 'TelegramBotsHub | None':
         return (
             sorted(hubs, key=lambda hub: hub.client.get_telegram_bot_ids())[0]
             if (hubs := self.all())
             else None
         )
 
-    def get_telegram_bot_hub(self, telegram_bot_id: int) -> TelegramBotsHub | None:
+    def get_telegram_bot_hub(self, telegram_bot_id: int) -> 'TelegramBotsHub | None':
         for hub in self.all():
             if telegram_bot_id in hub.client.get_telegram_bot_ids():
                 return hub
