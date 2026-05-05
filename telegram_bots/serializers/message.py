@@ -358,7 +358,7 @@ class MessageSerializer(TelegramBotMixin, serializers.ModelSerializer[Message]):
         for item in media_data:
             try:
                 media: AMMT = queryset.get(id=item['id'])
-            except KeyError, media_model_class.DoesNotExist:
+            except (KeyError, media_model_class.DoesNotExist):
                 create_media.append(media_model_class(message=message, **item))
             else:
                 new_file: UploadedFile | None = item.get('file')
@@ -443,7 +443,7 @@ class MessageSerializer(TelegramBotMixin, serializers.ModelSerializer[Message]):
                 button: MessageKeyboardButton = keyboard.buttons.get(
                     id=button_data['id']
                 )
-            except KeyError, MessageKeyboardButton.DoesNotExist:
+            except (KeyError, MessageKeyboardButton.DoesNotExist):
                 if keyboard_type != 'default':
                     button_data['url'] = None
 

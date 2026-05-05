@@ -179,7 +179,7 @@ class InvoiceSerializer(TelegramBotMixin, serializers.ModelSerializer[Invoice]):
         for item in data:
             try:
                 price: InvoicePrice = invoice.prices.get(id=item['id'])
-            except KeyError, InvoicePrice.DoesNotExist:
+            except (KeyError, InvoicePrice.DoesNotExist):
                 create_prices.append(InvoicePrice(invoice=invoice, **item))
             else:
                 price.label = item.get('label', price.label)
